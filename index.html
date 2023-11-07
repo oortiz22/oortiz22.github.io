@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Mio Restaurant Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .menu-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-item-name {
+            font-weight: bold;
+        }
+        .menu-item-price {
+            color: #777;
+        }
+        .menu-item-description {
+            font-size: 0.9em;
+            color: #444;
+        }
+    </style>
+</head>
 <body>
-
-<h1>My First Heading</h1>
-
-<p>My first paragraph.</p>
-
+    <header>
+        <h1>Il Mio Restaurant Menu</h1>
+    </header>
+    <div class="menu-container">
+        <div class="menu-item">
+            <div class="menu-item-info">
+                <div class="menu-item-name">Item 1</div>
+                <div class="menu-item-description">Description of Item 1.</div>
+            </div>
+            <div class="menu-item-price">$10.99</div>
+        </div>
+        <div class="menu-item">
+            <div class="menu-item-info">
+                <div class="menu-item-name">Item 2</div>
+                <div class="menu-item-description">Description of Item 2.</div>
+            </div>
+            <div class="menu-item-price">$12.99</div>
+        </div>
+        <!-- Add more menu items here -->
+    </div>
 </body>
 </html>

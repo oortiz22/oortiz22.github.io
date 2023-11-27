@@ -189,6 +189,8 @@
         <!-- Repeat the structure for other menu items -->
     </div>
     <script>
+        let order = [];
+
         function toggleDescriptionAndEnlarge(item) {
             var description = item.nextElementSibling;
             description.classList.toggle('show');
@@ -196,10 +198,32 @@
             var image = item.parentNode.querySelector('img');
             image.classList.toggle('enlarge');
         }
-      function addToOrder(dishName, price) {
-            // Here, you can implement the logic to add the selected dish to the user's order
-            // For simplicity, let's just print a message to the console
-            console.log(`Added ${dishName} to your order. Price: $${price}`);
+
+        function addToOrder(dishName, price) {
+            // Add the selected dish and its price to the order array
+            order.push({ name: dishName, price: price });
+
+            // Update the order summary on the webpage
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const orderListElement = document.getElementById('order-list');
+            const orderTotalElement = document.getElementById('order-total');
+
+            // Clear existing order list
+            orderListElement.innerHTML = '';
+
+            // Populate the order list
+            order.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                orderListElement.appendChild(listItem);
+            });
+
+            // Calculate and display the total price
+            const total = order.reduce((sum, item) => sum + item.price, 0);
+            orderTotalElement.textContent = total.toFixed(2);
         }
     </script>
 </body>

@@ -15,6 +15,17 @@
         .menu-item img.enlarge {
             transform: scale(1.5); /* You can adjust the scale factor as needed */
         }
+      .order-button {
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -35,6 +46,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Cacio e Pepe</div>
                 <div class="menu-item-description">spaghetti, grana padano, butter, pecorino, cracked black pepper</div>
                 <img src="images/cacio-e-pepe.jpg" alt="Cacio e Pepe" width="200">
+                <button class="order-button" onclick="addToOrder('Cacio e Pepe', 15.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$15.99</div>
         </div>
@@ -43,6 +55,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Gnocchi alla Vodka</div>
                 <div class="menu-item-description">Potato dumpling, vodka, ricotta, tomato cream sauce, parmesan</div>
                 <img src="./images/gnocchi-alla-vodka.jpg" alt="Gnocchi alla Vodka" width="200">
+                <button class="order-button" onclick="addToOrder('Gnocchi alla Vodka', 17.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$17.99</div>
         
@@ -52,6 +65,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)" >Orecchiette</div>
                 <div class="menu-item-description">Crumbled Italian sausage, rapini, shallots,parmigiano, white wine</div>
                 <img src="./images/orecchiette.jpg" alt="Orecchiette" width="200">
+                <button class="order-button" onclick="addToOrder('Orecchiette', 17.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$17.99</div>
         </div>
@@ -60,6 +74,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)" >Braised Short Rib</div>
                 <div class="menu-item-description">Slow cooked with carrots, celery, tomatoes, pormigiano polenta</div>
                 <img src="./images/braised-short-ribs.jpg" alt="Braised Short Rib" width="200">
+                <button class="order-button" onclick="addToOrder('Braised Short Rib', 18.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$18.99</div>
         </div>
@@ -68,6 +83,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)" >Pappardelle with Short Rib Ragu</div>
                 <div class="menu-item-description">Braised Short Rib ragu, parmigiano</div>
                 <img src="./images/short-rib-ragu.jpg" alt="Pappardelle with Short Rib Ragu" width="200">
+                <button class="order-button" onclick="addToOrder('Braised Short Rib Ragu', 20.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$20.99</div>
         </div>
@@ -76,6 +92,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)" >Rigatoni Bolognese</div>
                 <div class="menu-item-description">Pork,beef, carrots, celery, white wine, tomatoes</div>
                 <img src="./images/rigatoni-bolognese.jpg" alt="Rigatoni Bolognese" width="200">
+                 <button class="order-button" onclick="addToOrder('Rigatoni Bolognese', 17.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$17.99</div>
         </div>
@@ -84,6 +101,7 @@
                <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)" >Linguini White Clam</div>
                 <div class="menu-item-description">Vongole, onions, white wine, garlic, crushed pepper</div>
                 <img src="./images/linguine-with-clams.jpg" alt="Linguini White Clam" width="200">
+                <button class="order-button" onclick="addToOrder('Linguini White Clam', 24.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$24.99</div>
         </div>
@@ -92,6 +110,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)" >Shrimp Diavolo</div>
                 <div class="menu-item-description">Pasta, shrimp, garlic, onion, red pepper flakes, tomato sauce</div>
                 <img src="./images/linguine-and-shrimp.jpg" alt="Shrimp Diavolo" width="200">
+                <button class="order-button" onclick="addToOrder('Shrimp Diavolo', 27.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$27.99</div>
         </div>
@@ -100,6 +119,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Chicken Parmigiana</div>
                 <div class="menu-item-description">Mozarella, parmesan, spaghetti, san marzano tomatoes</div>
                 <img src="./images/chicken-parmesan.jpg" alt="Chicken Parmigiana" width="200">
+                <button class="order-button" onclick="addToOrder('Chicken Parmigiana', 22.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$22.99</div>
         </div>
@@ -108,6 +128,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Chilean Seabass</div>
                 <div class="menu-item-description">Pan seared seabass, sauteed spinach, lemon butter sauce</div>
                 <img src="./images/chilean-seabass.jpg" alt="Chilean Seabass" width="200">
+                 <button class="order-button" onclick="addToOrder('Chilean Seabass', 22.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$22.99</div>
         </div>
@@ -116,6 +137,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Skirt Steak Vesuvio</div>
                 <div class="menu-item-description">8oz prime skirt steak, oregano, roasted potatoes, evoo, garlic, white wine, grilled vegetables</div>
                 <img src="./images/skirt-steak.jpg" alt="Skirt Steak Vesuvio" width="200">
+                <button class="order-button" onclick="addToOrder('Skirt Steak Vesuvio', 21.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$21.99</div>
         </div>
@@ -124,6 +146,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Lamb Chops</div>
                 <div class="menu-item-description">Australian lamb, oregano, lemon, grilled asparagus, o'brien potatoes</div>
                 <img src="./images/lamb-chops.jpg" alt="Lamb Chops" width="200">
+                <button class="order-button" onclick="addToOrder('Lamb Chops', 44.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$44.99</div>
         </div>
@@ -132,6 +155,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Eggplant Parmigiana</div>
                 <div class="menu-item-description">Mozarella, parmesan, spaghetti, san marzano tomatoes</div>
                 <img src="./images/eggplant-parmigiana.jpg" alt="Eggplant Parmigiana" width="200">
+                <button class="order-button" onclick="addToOrder('Eggplant Parmigiana', 20.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$20.99</div>
         </div>
@@ -140,6 +164,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Branzino</div>
                 <div class="menu-item-description">Mediterreanean sea bass, mushrooms, cipolini onions, grape tomatoes, rapini, lemon white wine sauce</div>
                 <img src="./images/branzino.jpg" alt="Branzino" width="200">
+                <button class="order-button" onclick="addToOrder('Branzino', 36.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$36.99</div>
         </div>
@@ -148,6 +173,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Chicken Peperoncini</div>
                 <div class="menu-item-description">Half bone in chicken, mushrooms, bell peppers, onions, peperoncini, roasted potatoes, lemon, butter</div>
                 <img src="./images/chicken-peperoncini.jpg" alt="Branzino" width="200">
+                <button class="order-button" onclick="addToOrder('Branzino', 23.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$23.99</div>
         </div>
@@ -156,6 +182,7 @@
                 <div class="menu-item-name" onclick="toggleDescriptionAndEnlarge(this)">Grilled Salmon</div>
                 <div class="menu-item-description">Scottish salmon, asparagus, risotto, lemon caper butter sauce</div>
                 <img src="./images/grilled-salmon.jpg" alt="Branzino" width="200">
+                <button class="order-button" onclick="addToOrder('Branzino', 33.99)">Add to Order</button>
             </div>
             <div class="menu-item-price">$33.99</div>
         </div>
@@ -168,6 +195,11 @@
 
             var image = item.parentNode.querySelector('img');
             image.classList.toggle('enlarge');
+        }
+      function addToOrder(dishName, price) {
+            // Here, you can implement the logic to add the selected dish to the user's order
+            // For simplicity, let's just print a message to the console
+            console.log(`Added ${dishName} to your order. Price: $${price}`);
         }
     </script>
 </body>

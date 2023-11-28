@@ -1,245 +1,280 @@
-const fs = require('fs');
-const csv = require('csv-parser');
-const readline = require('readline'); // to get user input
 
+// List that holds every menu item and its information.
+const menuItems = [
+  { name: 'Cacio e Pepe', 
+    description: 'spaghetti; grana padano; butter; pecorino; pepper',
+    category: 'vegetarian',
+    type: 'pasta',
+    imageUrl: './images/cacio-e-pepe.jpg',
+    price: 16 },
 
-// This function filters out all of the non-vegetarian dishes and creates a csv file with only the vegetarian dishes.
-function filterVegetarian(inputFilePath, outputFilePath) 
-{
-  const filteredData = [];
+  { name: 'Gnocchi alla Vodka', 
+    description: 'potato dumpling; vodka; ricotta; tomato cream sauce; parmesan',
+    category: 'vegetarian',
+    type: 'pasta',
+    imageUrl: './images/gnocchi-alla-vodka.jpg',
+    price: 18 },
 
-  fs.createReadStream(inputFilePath)
-    .pipe(csv())
-    .on('data', (row) => 
-    {
-      // filter the csv file
-      if (row.filter.toLowerCase() === 'vegetarian') 
-      {
-        filteredData.push(row);
-      }
-    })
-    .on('end', () => 
-    {
-      // Create a new CSV file with the filtered data
-      const header = ['name', 'filter', 'type', 'ingredients'].join(',');
-      const data = filteredData.map((row) => [row.name, row.filter].join(',')).join('\n');
-      const csvContent = `${header}\n${data}`;
+  { name: 'Orecchiette',
+    description: 'crumbled italian sausage; rapini; shallots; cheese; white wine',
+    category: 'none',
+    type: 'pasta',
+    imageUrl: './images/orecchiette.jpg',
+    price: 18 },
 
-      fs.writeFileSync(outputFilePath, csvContent);
+  { name: 'Rigatoni Primavera', 
+    description: 'rigatoni; garlic; mushrooms; corn; tomatoes; onions; cheese',
+    category: 'vegetarian',
+    type: 'pasta',
+    imageUrl: './images/rigatoni-primavera.jpg',
+    price: 18 },
 
-      console.log('Filtered CSV file created successfully.');
-    });
-} // end of function filterVegetarian
+  { name: 'Pappardelle with Short Rib Ragu',
+    description: 'braised short rib ragu; cheese',
+    category: 'none',
+    type: 'pasta',
+    imageUrl: './images/short-rib-ragu.jpg',
+    price: 21 },
 
+  { name: 'Rigatoni Bolognese',
+    description: 'pork; beef; carrots; celery; white wine; tomatoes',
+    category: 'none',
+    type: 'pasta',
+    imageUrl: './images/rigatoni-bolognese.jpg',
+    price: 18 },
 
-// This function filters out all of the gluten dishes and creates a csv file with only the gluten-free dishes.
-function filterGluten(inputFilePath, outputFilePath) 
-{
-  const filteredData = [];
+  { name: 'Linguini White Clam',
+    description: 'vongole; onions; white; wine; garlic; crushed; pepper',
+    category: 'shellfish',
+    type: 'pasta',
+    imageUrl: './images/linguine-with-clams.jpg',
+    price: 25 },
+  
+  { name: 'Shrimp Diavolo',
+    description: 'shrimp; garlic; onion; red pepper flakes; tomato sauce',
+    category: 'none',
+    type: 'pasta',
+    imageUrl: './images/linguine-and-shrimp.jpg',
+    price: 28 },
 
-  fs.createReadStream(inputFilePath)
-    .pipe(csv())
-    .on('data', (row) => 
-    {
-      // filter the csv file
-      if (row.filter.toLowerCase() === 'gluten-free') 
-      {
-        filteredData.push(row);
-      }
-    })
-    .on('end', () => 
-    {
-      // Create a new CSV file with the filtered data
-      const header = ['name', 'filter', 'type', 'ingredients'].join(',');
-      const data = filteredData.map((row) => [row.name, row.filter].join(',')).join('\n');
-      const csvContent = `${header}\n${data}`;
+  { name: 'Chicken Parmigiana',
+    description: 'mozzarella; parmesan; spaghetti; san marzano tomatoes',
+    category: 'none',
+    type: 'meat',
+    imageUrl: './images/chicken-parmesan.jpg',
+    price: 23 },
 
-      fs.writeFileSync(outputFilePath, csvContent);
+  { name: 'Chilean Seabass',
+    description: 'seabass; spinach; lemon; butter sauce',
+    category: 'gluten-free',
+    type: 'fish',
+    imageUrl: './images/chilean-seabass.jpg',
+    price: 41 },
 
-      console.log('Filtered CSV file created successfully.');
-    });
-} // end of function filterGluten
+  { name: 'Skirt Steak Vesuvio',
+    description: 'skirt steak; oregano; roasted potatoes; evoo; garlic; white wine; grilled vegetables',
+    category: 'gluten-free',
+    type: 'meat',
+    imageUrl: './images/skirt-steak.jpg',
+    price: 34 },
 
+  { name: 'Lamb Chops',
+    description: 'lamb; oregano; lemon; grilled asparagus; potatoes',
+    category: 'gluten-free',
+    type: 'meat',
+    imageUrl: './images/lamb-chops.jpg',
+    price: 45 },
 
-// This function filters out all of the shellfish dishes and creates a csv file with only the shellfish-free dishes.
-function filterShellFish(inputFilePath, outputFilePath) 
-{
-  const filteredData = [];
+  { name: 'Eggplant Parmigiana',
+    description: 'mozzarella; parmesan; spaghetti; tomatoes',
+    category: 'none',
+    type: 'pasta',
+    imageUrl: './images/eggplant-parmigiana.jpg',
+    price: 21 },
 
-  fs.createReadStream(inputFilePath)
-    .pipe(csv())
-    .on('data', (row) => 
-    {
-      // filter the csv file
-      if (row.filter.toLowerCase() !== 'shellfish') 
-      {
-        filteredData.push(row);
-      }
-    })
-    .on('end', () => 
-    {
-      // Create a new CSV file with the filtered data
-      const header = ['name', 'filter', 'type', 'ingredients'].join(',');
-      const data = filteredData.map((row) => [row.name, row.filter].join(',')).join('\n');
-      const csvContent = `${header}\n${data}`;
+  { name: 'Branzino',
+    description: 'seabass; mushrooms; onions; tomatoes; rapini; lemon; white wine',
+    category: 'gluten-free',
+    type: 'fish',
+    imageUrl: './images/branzino.jpg',
+    price: 36 },
 
-      fs.writeFileSync(outputFilePath, csvContent);
+  { name: 'Chicken Peperoncini',
+    description: 'seabass; mushrooms; onions; tomatoes; rapini; lemon; white wine',
+    category: 'gluten-free',
+    type: 'meat',
+    imageUrl: './images/chicken-peperoncini.jpg',
+    price: 24 },
 
-      console.log('Filtered CSV file created successfully.');
-    });
-} // end of function filterShellFish
+  { name: 'Grilled Salmon',
+    description: 'salmon; asparagus; risotto; lemon; butter sauce',
+    category: 'gluten-free',
+    type: 'fish',
+    imageUrl: './images/grilled-salmon.jpg',
+    price: 34 },
 
+  { name: 'Fried Chicken Sliders',
+    description: 'lettuce; tomato; spicy aioli; pickle; brioche bun',
+    category: 'none',
+    type: 'meat',
+    imageUrl: './images/fried-chicken-sliders.jpg',
+    price: 17 },
 
-// this function filters based on type
-function filterType(inputFilePath, outputFilePath, userInput) {
-  const filteredData = []; // array to hold results
-  let inputDishType;
+  { name: 'Il Mio Burger',
+    description: 'lettuce; tomato; spicy aioli;pickle;brioche bun',
+    category: 'none',
+    type: 'meat',
+    imageUrl: './images/il-mio-burger.jpg',
+    price: 15 },
 
-  // Read the type of the input dish
-  fs.createReadStream(inputFilePath)
-    .pipe(csv())
-    .on('data', (row) => {
-      if (row.name.toLowerCase() === userInput.toLowerCase()) {
-        inputDishType = row.type.toLowerCase();
-      }
-    })
-    .on('end', () => {
-      // Check the type of each row and filter accordingly
-      fs.createReadStream(inputFilePath)
-        .pipe(csv())
-        .on('data', (row) => {
-          if (row.type.toLowerCase() === inputDishType && row.name.toLowerCase() !== userInput.toLowerCase()) {
-            filteredData.push(row);
-          }
-        })
-        .on('end', () => {
-          // Create a new CSV file with the filtered data
-          const header = ['name', 'filter', 'type', 'ingredients'].join(',');
-          const data = filteredData.map((row) => [row.name, row.filter, row.type, row.ingredients].join(',')).join('\n');
-          const csvContent = `${header}\n${data}`;
+  { name: 'Filet Sliders',
+    description: 'tenderloin medallions; balsamic; arugula; pepper; brioche bun',
+    category: 'none',
+    type: 'meat',
+    imageUrl: './images/filet-sliders.jpg',
+    price: 29 },
 
-          fs.writeFileSync(outputFilePath, csvContent);
+  { name: 'Grilled Shrimp',
+    description: 'shrimp; garlic; onions; spinach; mozzarella',
+    category: 'shellfish',
+    type: 'fish',
+    imageUrl: './images/grilled-shrimp.jpg',
+    price: 18 },
 
-          console.log('Filtered CSV file created successfully.');
-        });
-    });
-} // end of function filterType
+  { name: 'Fried Calamari',
+    description: 'marinara sauce; lemon',
+    category: 'none',
+    type: 'fish',
+    imageUrl: './images/fried-calamari.jpg',
+    price: 16 },
 
+  { name: 'Whipped Ricotta',
+    description: 'cheese; honey; toast',
+    category: 'vegetarian',
+    type: 'none',
+    imageUrl: './images/whipped-ricotta.jpg',
+    price: 15 },
 
+  { name: 'Grilled Octopus',
+    description: 'octopus; lemon; evoo; tomatoes',
+    category: 'gluten-free',
+    type: 'fish',
+    imageUrl: './images/grilled-octopus.jpg',
+    price: 19 },
 
-// this function filters out all dishes that are not similar to the dish the user inputed
-function filterSimilar(inputFilePath, outputFilePath, userInput) {
-  const filteredData = []; // array to store results we will return
-  let inputDishType; // variable to store the type of the input dish
-  let inputDishIngredients = []; // array to store the ingredients of the input dish
+  { name: 'Sausage Peperonata',
+    description: 'sausage; peppers; onions; mushrooms; tomato',
+    category: 'gluten-free',
+    type: 'meat',
+    imageUrl: './images/sausage-peperonata.jpg',
+    price: 15 },
 
-  fs.createReadStream(inputFilePath)
-    .pipe(csv())
-    .on('data', (row) => {
-      if (row.name.toLowerCase() === userInput.toLowerCase()) // we are on the input dishes row
-      {
-        inputDishType = row.type.toLowerCase(); // store the type of the input dish
-        inputDishIngredients = row.ingredients.split(';').map(ingredient => ingredient.trim()); // store the ingredients of the input dish
-      }
-    })
-    .on('end', () => {
-      // Check the type and ingredients of each row and filter accordingly
-      fs.createReadStream(inputFilePath)
-        .pipe(csv())
-        .on('data', (row) => {
-          if(row.type.toLowerCase() === inputDishType && row.name.toLowerCase() !== userInput.toLowerCase() && getCommonIngredientsCount(row.ingredients, inputDishIngredients)) 
-          {
-            filteredData.push(row);
-          }
-        })
-        .on('end', () => {
-          // Create a new CSV file with the filtered data
-          const header = ['name', 'filter', 'type', 'ingredients'].join(',');
-          const data = filteredData.map((row) => [row.name, row.filter, row.type, row.ingredients].join(',')).join('\n');
-          const csvContent = `${header}\n${data}`;
+  { name: 'Meatball Polenta',
+    description: 'meatballs; parmigiano polenta; marinara',
+    category: 'gluten-free',
+    type: 'meat',
+    imageUrl: './images/meatball-polenta.jpg',
+    price: 15 },
 
-          fs.writeFileSync(outputFilePath, csvContent);
+  { name: 'Prosciutto Burrata',
+    description: 'prosciutto di parma; burrata; arugula; evoo',
+    category: 'gluten-free',
+    type: 'pasta',
+    imageUrl: './images/prosciutto-burrata.jpg',
+    price: 17 },
 
-          console.log('Filtered CSV file created successfully.');
-        });
-    });
-} // end of function filterSimilar
+  { name: 'Grilled Calamari',
+    description: 'balsamic vinaigrette; arugula',
+    category: 'gluten-free',
+    type: 'fish',
+    imageUrl: './images/grilled-calamari.jpg',
+    price: 18 },
 
+  { name: 'Honey Pear Crostini',
+    description: 'pears; honey; whipped ricotta; walnuts',
+    category: 'vegetarian',
+    type: 'none',
+    imageUrl: './images/honey-pear-crostini.jpg',
+    price: 16 },
+]
 
-// helper function for the filterSimilar function
-// this function gets the number of common ingredients between the input dish and the dish we are currently on in the csv file
-// this function returns true if the number of common ingredients is >= 1 and false if not
-function getCommonIngredientsCount(rowIngredients, inputDishIngredients) 
-{
-  let rowDishIngredients = []; // array to store the ingredients of the row dish
-  rowDishIngredients = rowIngredients.split(';').map(ingredient => ingredient.trim()); // store the ingredients of the row dish
+// Generates all of the menu items.
+function generateMenuItems(items) {
+  // Display all menu items (HTML).
+  return items.map(item => `
+      <div class="menu-item" data-category="${item.category}" data-type="${item.type}">
+          <div class="menu-item-info">
+              <div class="menu-item-name" onclick="toggleDescription(this)">${item.name}</div>
+              <div class="menu-item-description">${item.description}</div>
+              <img src="${item.imageUrl}" alt="${item.name}" width="200">
+              <button class="order-button" onclick="addToOrder('${item.name}', ${item.price})">Add to Order</button>
+          </div>
+          <div class="menu-item-price">${item.price}</div>
+      </div>
+  `).join('');
+}
 
-  // compare the ingredients of the row dish and the input dish, see if they have one or more ingredients in common
-  let count = 0;
-  for(let i = 0; i < rowDishIngredients.length; i++)
-  {
-    if(inputDishIngredients.includes(rowDishIngredients[i]))
-    {
-      count++;
+// Displays certain menu items depending on the selected value from the drop down menu.
+function applyFilter() {
+  // Get the currently selected dietary filter from the dropdown menu.
+  const selectedDietaryFilter = document.getElementById('dietary').value;
+  // Get the currently selected type filter from the dropdown menu.
+  const selectedTypeFilter = document.getElementById('type').value;
+  // Select all elements with the class menu-item.
+  const menuItems = document.querySelectorAll('.menu-item');
+
+  // Loop through each menu item.
+  menuItems.forEach(item => {
+    // Determine if the current menu item matches the dietary filter selection.
+    const matchesDietaryFilter = selectedDietaryFilter === 'none' || item.getAttribute('data-category') === selectedDietaryFilter;
+    // Determine if the current menu item matches the type filter selection.
+    const matchesTypeFilter = selectedTypeFilter === 'none' || item.getAttribute('data-type') === selectedTypeFilter;
+
+    // If the dropdown is set to 'none' (show all) or if the items category matches the selected filter:
+    if (matchesDietaryFilter && matchesTypeFilter) {
+      // Display the item.
+      item.style.display = 'block';
+    } else {
+      // Hide the item.
+      item.style.display = 'none';
     }
+  });
+}
+
+// Perform a search to find like items.
+function performSearch() {
+  document.querySelector('.menu-container').innerHTML = generateMenuItems(menuItems);
+  // Get the searched menu item name.
+  let searchName = document.getElementById('searchBar').value.toLowerCase();
+
+  // Get all menu items displayed on the page.
+  const displayedMenuItems = document.querySelectorAll('.menu-item');
+
+  // Find the item that matches the searched name.
+  let foundItem = menuItems.find(item => item.name.toLowerCase() === searchName);
+
+  // If the item is found:
+  if (foundItem) {
+      // Extract type and description parts of the found item.
+      let searchType = foundItem.type;
+      let searchIngredients = foundItem.description.toLowerCase().split(';').map(part => part.trim());
+
+      // Iterate over all displayed menu items.
+      displayedMenuItems.forEach(menuItemElement => {
+          let itemType = menuItemElement.getAttribute('data-type');
+          let itemDescription = menuItemElement.querySelector('.menu-item-description').textContent.toLowerCase().split(';').map(part => part.trim());
+
+          // Check if the current item's type does not match the search type or it does not share any ingredient.
+          let notMatch = itemType !== searchType || !itemDescription.some(part => searchIngredients.includes(part) && part !== '');
+
+          // Hide the item if it does not match.
+          if (notMatch) {
+              menuItemElement.style.display = 'none';
+          }
+      });
+  } else {
+      // Show message if no matching items found.
+      let resultsContainer = document.getElementById('searchResults');
+      resultsContainer.innerHTML = 'Error: No matching items found.';
   }
-
-  return count >= 1; // return true only if the count is greater than or equal to one
-} // end of function getCommonIngredientsCount
-
-
-// this function gets the user input
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-}); // end of function rl
-
-
-function main() 
-{
-  const inputFilePath = 'dinner.csv';
-  let userInput; // Declare a variable to store user input
-
-  rl.question('Choose a filter (vegetarian, gluten, shellfish, type, or similar): ', (answer) => {
-    userInput = answer; // Save the user input in the variable
-    console.log(`You chose: ${userInput}!`);
-
-    if(userInput == 'vegetarian')
-    {
-      const outputFilePath = 'filteredVegetarian.csv';
-      filterVegetarian(inputFilePath,outputFilePath);
-    }
-    else if(userInput == 'gluten')
-    {
-      const outputFilePath = 'filteredGluten.csv';
-      filterGluten(inputFilePath,outputFilePath);
-    }
-    else if(userInput == 'shellfish')
-    {
-      const outputFilePath = 'filteredShellFish.csv';
-      filterShellFish(inputFilePath,outputFilePath);
-    }
-    else if(userInput == 'type')
-    {
-      const outputFilePath = 'filteredType.csv';
-      let userInputDish = 'Rigatoni Primavera'; 
-      filterType(inputFilePath,outputFilePath, userInputDish);
-    }
-    else if(userInput == 'similar')
-    {
-      const outputFilePath = 'filteredSimilar.csv';
-      // let userInputDish = 'Rigatoni Primavera'; 
-      let userInputDish = 'Branzino';
-      
-      filterSimilar(inputFilePath, outputFilePath, userInputDish);
-    }
-    
-    rl.close();
-  }); // end of r1.question
-
-} // end of function main
-
-if(require.main === module) 
-{
-  main();
 }

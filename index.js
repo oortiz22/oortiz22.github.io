@@ -5,7 +5,7 @@ const menuItems = [
     description: 'spaghetti; grana padano; butter; pecorino; pepper',
     category: 'vegetarian',
     type: 'pasta',
-    imageUrl: './images/cacio-e-pepe.jpg',
+    imageUrl: 'cacio-e-pepe.jpg',
     price: 16 },
 
   { name: 'Gnocchi alla Vodka', 

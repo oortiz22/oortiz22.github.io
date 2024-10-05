@@ -52,3 +52,17 @@
   top: 2px;
   left: 2px;
 }
+
+/* Container for the chessboard */
+.chessboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+.board-b72b1 {
+  border: 2px solid #404040;
+  box-sizing: content-box;
+  display: inline-block; /* Ensure it doesn't stretch */
+}

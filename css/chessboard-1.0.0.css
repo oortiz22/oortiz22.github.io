@@ -53,7 +53,6 @@
   left: 2px;
 }
 
-/* Container for the chessboard */
 .chessboard-container {
   display: flex;
   justify-content: center;
@@ -61,7 +60,7 @@
   height: 100vh; /* Full viewport height */
 }
 
-.board-b72b1 {
+#board {
   border: 2px solid #404040;
   box-sizing: content-box;
   display: inline-block; /* Ensure it doesn't stretch */

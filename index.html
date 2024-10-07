@@ -18,13 +18,21 @@
       <div id="board" style="width: 400px; margin-bottom: 5vh;"></div>
 
       <div id="legend" style="margin-left: 2em; padding: 16px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
-        <p>To make a move, click the start listening button, then talk about the position of your pawn.</p>
+        <p>
+          To make a move, click the start listening button, then say the current index and intended index of your chess piece.
+          For example, say "A2 to A4" to move the pawn at A2 to A4.
+        </p>
+      </div>
+
+      <p id="status"></p>
+
+      <div style="display: flex; align-items: center;">
+        <input id="startPositionBtn" value="Reset Game" type="button" style="margin-right: 10px;">
+        <input id="startListeningBtn" value="Start Listening" type="button">
       </div>
     </div>
 
-    <p id="status"></p>
-    <input id="startPositionBtn" value="Reset Game" type="button">
-    <input id="startListeningBtn" value="Start Listening" type="button">
+
 
     <!-- Include the JavaScript file  -->
     <script src="main.js"></script>

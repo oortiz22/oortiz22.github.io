@@ -5,3 +5,7 @@
     background-color: #f9f9f9;
     width: 200px;
 }
+
+h1, h2, p {
+    font-family: "Gill Sans", sans-serif;
+}

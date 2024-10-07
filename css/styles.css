@@ -1,9 +1,10 @@
 .legend-box {
+    width: 200px; /* Adjust width to make it smaller than the board */
+    height: 200px; /* Set height to make it more square */
     margin-left: 20px;
     padding: 10px;
     border: 1px solid #000;
     background-color: #f9f9f9;
-    width: 50px;
 }
 
 h1, h2, p {

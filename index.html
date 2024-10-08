@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Chess</title>
     <link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -9,22 +9,28 @@
         crossorigin="anonymous"></script>
     <script src="js/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js"></script>
-  </head>
-  <body>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
-      <h1>EchoChess</h1>
-      <h2>Play chess with your voice</h2>
+</head>
+<body style="background-color: #aac0aa; margin: 0;">
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100vh; box-sizing: border-box; padding: 20px;">
+        <h1 style="font-family: 'Gill Sans', sans-serif; color: #fcdfa6; font-size: 4em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">EchoChess</h1>
 
-      <div id="board" style="width: 400px; margin-bottom: 5vh;"></div>
+        <div style="display: flex; justify-content: center; align-items: flex-start; margin-bottom: 1em;">
+            <div id="board" style="width: 400px; margin-right: 20px;"></div>
+            <div id="legend" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                <p>
+                    To make a move, click the start listening button, then say the current index and intended index of your chess piece.
+                    For example, say "A2 to A4" to move the pawn at A2 to A4.
+                </p>
+            </div>
+        </div>
 
-      <div id="legend" style="margin-left: 2em; padding: 16px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
-        <p>To make a move, click the start listening button, then talk about the position of your pawn.</p>
-      </div>
+        <p id="status"></p>
+
+        <div style="display: flex; align-items: center;">
+            <input id="startPositionBtn" value="Reset Game" type="button" style="margin-right: 10px; background-color: #cbe896;">
+            <input id="startListeningBtn" value="Start Listening" type="button" style="background-color: #cbe896;">
+        </div>
     </div>
-
-    <p id="status"></p>
-    <input id="startPositionBtn" value="Reset Game" type="button">
-    <input id="startListeningBtn" value="Start Listening" type="button">
 
     <!-- Include the JavaScript file  -->
     <script src="main.js"></script>
@@ -34,5 +40,5 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./js/chessboard-1.0.0.min.js"></script>
     <script src="./js/cinnamon.js"></script>
-  </body>
+</body>
 </html>

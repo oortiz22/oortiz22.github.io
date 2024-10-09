@@ -38,6 +38,12 @@ recognition.onresult = (event) => {
     if (event.results[i].isFinal) {
       finalTranscript += transcript + '<br>';
 
+      // Check for "restart game" command
+      if (transcript.includes('reset game')) {
+        restartGame();
+        return; // Exit the loop after restarting the game
+      }
+
       /* Make move */
       console.log(spokenWords[spokenWords.length-1]);
       makeMove(spokenWords[spokenWords.length-1]);
@@ -48,8 +54,16 @@ recognition.onresult = (event) => {
     }
   }
   //document.querySelector('#log').innerHTML = finalTranscript.toLowerCase() + '<i style="color:#ddd;">' + interimTranscript.toLowerCase() + '</>';
-}
+} 
 recognition.start();
+
+function restartGame() {
+  game.reset(); // Reset the Chess game state
+  board.start(); // Reset the board to the starting position
+  updateStatus(); // Update the game status display
+  statusEl.html('Game reset. White to move.'); // Show a message to the player
+  console.log('Game reset');
+}
 
 function makeMove(move) {
   /* PREPROCESSING: "b1a3" */

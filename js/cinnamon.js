@@ -13,21 +13,11 @@ var board,
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
 var finalTranscript = '';
 var recognition = new window.SpeechRecognition();
-
-/* Experimental feature */
-/*
-var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-var positions = [ 'e1' , 'e2'];
-var grammar = '#JSGF V1.0; grammar positions; public <position> = ' + positions.join(' | ') + ' ;'
-var speechRecognitionList = new SpeechGrammarList();
-speechRecognitionList.addFromString(grammar, 1);
-recognition.grammars = speechRecognitionList;
-*/
-
 recognition.interimResults = true;
 recognition.maxAlternatives = 10;
 recognition.continuous = true;
 recognition.lang = "en-US";
+statusEl.html("Please say 'Play as White' or 'Play as Black' to choose your color.");
 
 var spokenWords = [];
 
@@ -38,12 +28,19 @@ recognition.onresult = (event) => {
     if (event.results[i].isFinal) {
       finalTranscript += transcript + '<br>';
 
+      // Listen for color choice
+      if (transcript.includes('play as white') || transcript.includes('i want to play white')) {
+          chooseColor('w');
+          return;
+      } else if (transcript.includes('play as black') || transcript.includes('i want to play black')) {
+          chooseColor('b');
+          return;
+        } 
       // Check for "restart game" command
       if (transcript.includes('reset game')) {
         restartGame();
         return; // Exit the loop after restarting the game
       }
-
       /* Make move */
       console.log(spokenWords[spokenWords.length-1]);
       makeMove(spokenWords[spokenWords.length-1]);
@@ -53,15 +50,13 @@ recognition.onresult = (event) => {
       spokenWords.push(interimTranscript);
     }
   }
-  //document.querySelector('#log').innerHTML = finalTranscript.toLowerCase() + '<i style="color:#ddd;">' + interimTranscript.toLowerCase() + '</>';
 } 
 recognition.start();
 
 function restartGame() {
   game.reset(); // Reset the Chess game state
   board.start(); // Reset the board to the starting position
-  updateStatus(); // Update the game status display
-  statusEl.html('Game reset. White to move.'); // Show a message to the player
+  statusEl.html("Game reset. Please say 'Play as White' or 'Play as Black' to choose your color."); // Show a message to the player
   console.log('Game reset');
 }
 
@@ -76,7 +71,7 @@ function makeMove(move) {
   var move = game.move({
     from: source,
     to: target,
-    promotion: 'q' // NOTE: always promote to a queen for simplicity
+    promotion: 'q' //promote to a queen
   });
 
   // illegal move
@@ -116,7 +111,7 @@ var onDrop = function(source, target) {
   var move = game.move({
     from: source,
     to: target,
-    promotion: 'q' // NOTE: always promote to a queen for example simplicity
+    promotion: 'q' //promote to a queen
   });
 
   // illegal move
@@ -131,19 +126,10 @@ var onSnapEnd = function() {
 };
 
 function engineGo() {
-
 	cinnamonCommand("setMaxTimeMillsec","1000")
 	cinnamonCommand("position",game.fen())
 	var move=cinnamonCommand("go","")
-	//alert(move)
-	var from=move.substring(0,2);
-	var to=move.substring(2,4);
- 	var move = game.move({
-    		from: from,
-   		to: to,
-    		promotion: 'q' // NOTE: always promote to a queen for example simplicity
-  	});
-
+  makeMove(move);
 }
 var onMouseoverSquare = function(square, piece) {
   // get list of possible moves for this square
@@ -170,11 +156,11 @@ var onMouseoutSquare = function(square, piece) {
 
 var updateStatus = function() {
 
-  if (game.turn() === 'b') {
-    engineGo()
+  if ((game.turn() === 'b' && playerColor === 'w') || (game.turn() === 'w' && playerColor === 'b')) {
+    engineGo();
   }
-  var status = '';
 
+  var status = '';
   var moveColor = 'White';
   if (game.turn() === 'b') {
     moveColor = 'Black';
@@ -183,19 +169,12 @@ var updateStatus = function() {
   // checkmate?
   if (game.in_checkmate() === true) {
     status = 'Game over, ' + moveColor + ' is in checkmate.';
-  }
-
-  // draw?
-  else if (game.in_draw() === true) {
+  } else if (game.in_draw() === true) { //draw
     status = 'Game over, drawn position';
-  }
-
-  // game still on
-  else {
+  } else { // game still on
     status = moveColor + ' to move';
 
-    // check?
-    if (game.in_check() === true) {
+    if (game.in_check() === true) { // check?
       status += ', ' + moveColor + ' is in check';
     }
   }
@@ -204,6 +183,17 @@ var updateStatus = function() {
   fenEl.html(game.fen());
   pgnEl.html(game.pgn());
 };
+
+/* Function to choose color based on voice command */
+function chooseColor(color) {
+  playerColor = color;
+  if (playerColor === 'w') {
+    statusEl.html("You are playing as White. Your move.");
+  } else {
+    statusEl.html("You are playing as Black. The engine will move first.");
+    engineGo(); // Let engine make the first move if player is black
+  }
+}
 
 var cfg = {
   draggable: true,

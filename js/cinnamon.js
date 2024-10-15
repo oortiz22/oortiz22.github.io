@@ -43,7 +43,11 @@ recognition.onresult = (event) => {
       }
       /* Make move */
       console.log(spokenWords[spokenWords.length-1]);
-      makeMove(spokenWords[spokenWords.length-1]);
+
+      var please = extractCharNumCharNum(spokenWords[spokenWords.length-1]);
+      makeMove(please);
+
+      // makeMove(spokenWords[spokenWords.length-1]);
 
     } else {
       interimTranscript += transcript;
@@ -51,6 +55,13 @@ recognition.onresult = (event) => {
     }
   }
 } 
+
+function extractCharNumCharNum(inputString) {
+  // Regular expression to match a pattern of char num char num
+  const regex = /[a-zA-Z]\d\s?[a-zA-Z]\d/;
+  const match = inputString.match(regex);
+  return match ? match[0] : null;  // If a match is found, return it; otherwise, return null
+}
 recognition.start();
 
 function restartGame() {

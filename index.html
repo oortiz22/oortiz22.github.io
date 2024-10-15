@@ -15,6 +15,18 @@
         <h1 style="font-family: 'Gill Sans', sans-serif; color: #fcdfa6; font-size: 4em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">EchoChess</h1>
 
         <div style="display: flex; justify-content: center; align-items: flex-start; margin-bottom: 1em;">
+            <div padding: 20px>
+                <div id="capturedWhite" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                    <p>
+                        Captured pieces by white:
+                    </p>
+                </div>
+                <div id="capturedBlack" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                    <p>
+                        Captured pieces by black:
+                    </p>
+                </div>
+            </div>
             <div id="board" style="width: 400px; margin-right: 20px;"></div>
             <div id="legend" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
                 <p>
@@ -23,6 +35,16 @@
                     To restart the game, simply say "Reset Game"
                 </p>
             </div>
+            <!-- <div id="capturedWhite" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                <p>
+                    Captured pieces by white:
+                </p>
+            </div>
+            <div id="capturedBlack" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                <p>
+                    Captured pieces by black:
+                </p>
+            </div> -->
         </div>
 
         <p id="status"></p>

@@ -11,6 +11,15 @@ var board,
   capWhiteEl = $('#capWhite');
   capBlackEl = $('#capBlack');
 
+  setInterval(() => {
+    // Get the jQuery elements to display captured pieces
+    // const capBlackEl = $('#capBlack');  // jQuery object for captured black pieces
+    // const capWhiteEl = $('#capWhite');  // jQuery object for captured white pieces
+    
+    // Call the function with the current FEN string and jQuery objects
+    updateCapturedPieces(game.fen(), capBlackEl, capWhiteEl);
+}, 1000);
+
 /* Speech Recognition Part */
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
 var finalTranscript = '';
@@ -57,6 +66,12 @@ recognition.onresult = (event) => {
     }
   }
 } 
+
+// Restart recognition when it ends
+recognition.onend = () => {
+  console.log("Speech recognition service disconnected, restarting...");
+  recognition.start();  // Restart the recognition service
+};
 
 function extractCharNumCharNum(inputString) {
   // Regular expression to match a pattern of char num char num
@@ -207,6 +222,20 @@ function updateCapturedPieces(fen, capBlackEl, capWhiteEl) {
       'p': 8, 'n': 2, 'b': 2, 'r': 2, 'q': 1   // Black pieces
   };
 
+  // Mapping from piece letter to image filename
+  const pieceImages = {
+      'P': 'wP.png',
+      'N': 'wN.png',
+      'B': 'wB.png',
+      'R': 'wR.png',
+      'Q': 'wQ.png',
+      'p': 'bP.png',
+      'n': 'bN.png',
+      'b': 'bB.png',
+      'r': 'bR.png',
+      'q': 'bQ.png'
+  };
+
   // Extract the board part from the FEN (the first part)
   let board = fen.split(' ')[0];
 
@@ -223,29 +252,39 @@ function updateCapturedPieces(fen, capBlackEl, capWhiteEl) {
       }
   }
 
-  // Calculate captured white pieces
-  let capturedWhite = [];
+  // Clear the previous contents of the captured pieces containers using jQuery
+  capBlackEl.empty();  // Use .empty() to clear the content in jQuery
+  capWhiteEl.empty();  // Same for the white captured pieces container
+
+  // Calculate and display captured white pieces (captured by black)
   for (let piece of ['P', 'N', 'B', 'R', 'Q']) {
       let capturedCount = initialPieceCount[piece] - currentPieceCount[piece];
       if (capturedCount > 0) {
-          capturedWhite.push(piece.repeat(capturedCount)); // Add the captured pieces
+          for (let i = 0; i < capturedCount; i++) {
+              let img = $('<img>', {  // Create an image element using jQuery
+                  src: 'img/chesspieces/wikipedia/' + pieceImages[piece],
+                  alt: piece,
+                  css: { width: '30px', height: '30px' }  // Set the image size
+              });
+              capBlackEl.append(img);  // Append the image to capBlackEl using jQuery's .append()
+          }
       }
   }
 
-  // Calculate captured black pieces
-  let capturedBlack = [];
+  // Calculate and display captured black pieces (captured by white)
   for (let piece of ['p', 'n', 'b', 'r', 'q']) {
       let capturedCount = initialPieceCount[piece] - currentPieceCount[piece];
       if (capturedCount > 0) {
-          capturedBlack.push(piece.repeat(capturedCount)); // Add the captured pieces
+          for (let i = 0; i < capturedCount; i++) {
+              let img = $('<img>', {  // Create an image element using jQuery
+                  src: 'img/chesspieces/wikipedia/' + pieceImages[piece],
+                  alt: piece,
+                  css: { width: '30px', height: '30px' }  // Set the image size
+              });
+              capWhiteEl.append(img);  // Append the image to capWhiteEl using jQuery's .append()
+          }
       }
   }
-
-  // Join the captured pieces arrays into strings and update the DOM elements
-  capBlack = capturedWhite.join('');
-  capBlack = "Captured pieces by black: " + capBlack;
-  capWhite = capturedBlack.join('');
-  capWhite = "Captured pieces by white: " + capWhite;
 }
 
 /* Function to choose color based on voice command */

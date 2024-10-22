@@ -11,41 +11,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js"></script>
 </head>
 <body style="background-color: #aac0aa; margin: 0;">
-    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100vh; box-sizing: border-box; padding: 20px;">
-        <h1 style="font-family: 'Gill Sans', sans-serif; color: #fcdfa6; font-size: 4em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">EchoChess</h1>
+        <h1 style="font-family: 'Gill Sans', sans-serif; text-align: center; color: #fcdfa6; font-size: 4em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">EchoChess</h1>
 
         <div style="display: flex; justify-content: center; align-items: flex-start; margin-bottom: 1em;">
+            <div id="allMoves" style="width: 400px; height: 600px; padding: 8px;margin-right: 3em; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                <h2>
+                    Current Game
+                </h2>
+                <p>
+                    ***TODO: either display all moves here in table or explain commands***
+                </p>
+            </div>
             <div padding: 20px>
-                <div id="capturedWhite" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
-                    <p>
-                        Captured pieces by white:
-                    </p>
-                </div>
-                <div id="capturedBlack" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
-                    <p>
+                <div id="capturedWhite" style="width: 635px; height: 30px; padding: 8px; margin-bottom: 1em; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                    <p id="capBlack">
                         Captured pieces by black:
                     </p>
                 </div>
+                <div id="board" style="width: 600px; margin-right: 20px;"></div>
+                <div id="capturedBlack" style="width: 635px; height: 30px; padding: 8px; margin-top : 1em; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                    <p id="capWhite">
+                        Captured pieces by white:
+                    </p>
+                </div>
             </div>
-            <div id="board" style="width: 400px; margin-right: 20px;"></div>
-            <div id="legend" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+            <div id="legend" style="width: 400px; height: 700px; padding: 8px; margin-left: 3em; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
+                <h2>
+                    How to play
+                </h2>
                 <p>
-                    To make a move, say the current index and intended index of your chess piece.
-                    For example, say "A2 A4" to move the pawn at A2 to A4.
-                    To restart the game, simply say "Reset Game"
+                    <h3>Objective</h3> The goal is to checkmate your opponent’s king, meaning the king is under attack and cannot escape.<br>
+                    <br>
+                    <h3>Setup</h3> 
+                    The game is played on an 8x8 board with rows labeled 1-8 and columns labed a-h. White goes first.<br>
+                    <br>
+                    <h3>How pieces move</h3> 
+                    Pawn - Moves one square forward and captures diagonally one square. If at starting square, it can move one OR two squares<br>
+                    Rook - Moves any number of squares horizontally or vertically.<br>
+                    Knight - Moves in an "L" shape. Two squares in any direction, then one square perpendicular. It can jump over other pieces.<br>
+                    Bishop - Moves and captures diagonally any amount of squares<br>
+                    Queen - Moves any number of squares in any direction.<br>
+                    King - Moves one square in any direction.
+                    <h3>Special Moves</h3> 
+                    Castling - A king and rook can move simultaneously if neither has moved before, and there are no pieces between them.<br>
+                    En Passant - A pawn can capture an opponent’s pawn that moves two squares forward as if it moved only one square.<br>
+                    Promotion - Pawns reaching the opponent’s back rank can be promoted to a queen, rook, bishop, or knight.<br>
                 </p>
             </div>
-            <!-- <div id="capturedWhite" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
-                <p>
-                    Captured pieces by white:
-                </p>
-            </div>
-            <div id="capturedBlack" style="width: 200px; height: 200px; padding: 8px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
-                <p>
-                    Captured pieces by black:
-                </p>
-            </div> -->
         </div>
+        
 
         <p id="status"></p>
 
@@ -53,7 +67,6 @@
             <input id="startPositionBtn" value="Reset Game" type="button" style="margin-right: 10px; background-color: #cbe896;">
             <input id="startListeningBtn" value="Start Listening" type="button" style="background-color: #cbe896;">
         </div>
-    </div>
 
     <!-- Include the JavaScript file  -->
     <script src="main.js"></script>

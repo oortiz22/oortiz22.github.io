@@ -8,6 +8,8 @@ var board,
   statusEl = $('#status'),
   fenEl = $('#fen'),
   pgnEl = $('#pgn');
+  capWhiteEl = $('#capWhite');
+  capBlackEl = $('#capBlack');
 
 /* Speech Recognition Part */
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -193,7 +195,58 @@ var updateStatus = function() {
   statusEl.html(status);
   fenEl.html(game.fen());
   pgnEl.html(game.pgn());
+  updateCapturedPieces(game.fen(),capBlackEl, capWhiteEl )
+  capBlackEl.html(capBlack);
+  capWhiteEl.html(capWhite);
 };
+
+function updateCapturedPieces(fen, capBlackEl, capWhiteEl) {
+  // Define the starting set of pieces for each player
+  const initialPieceCount = {
+      'P': 8, 'N': 2, 'B': 2, 'R': 2, 'Q': 1,  // White pieces
+      'p': 8, 'n': 2, 'b': 2, 'r': 2, 'q': 1   // Black pieces
+  };
+
+  // Extract the board part from the FEN (the first part)
+  let board = fen.split(' ')[0];
+
+  // Count the remaining pieces on the board
+  let currentPieceCount = {
+      'P': 0, 'N': 0, 'B': 0, 'R': 0, 'Q': 0,  // White pieces
+      'p': 0, 'n': 0, 'b': 0, 'r': 0, 'q': 0   // Black pieces
+  };
+
+  // Loop through the board part of the FEN to count the pieces
+  for (let char of board) {
+      if (char in currentPieceCount) {
+          currentPieceCount[char]++;
+      }
+  }
+
+  // Calculate captured white pieces
+  let capturedWhite = [];
+  for (let piece of ['P', 'N', 'B', 'R', 'Q']) {
+      let capturedCount = initialPieceCount[piece] - currentPieceCount[piece];
+      if (capturedCount > 0) {
+          capturedWhite.push(piece.repeat(capturedCount)); // Add the captured pieces
+      }
+  }
+
+  // Calculate captured black pieces
+  let capturedBlack = [];
+  for (let piece of ['p', 'n', 'b', 'r', 'q']) {
+      let capturedCount = initialPieceCount[piece] - currentPieceCount[piece];
+      if (capturedCount > 0) {
+          capturedBlack.push(piece.repeat(capturedCount)); // Add the captured pieces
+      }
+  }
+
+  // Join the captured pieces arrays into strings and update the DOM elements
+  capBlack = capturedWhite.join('');
+  capBlack = "Captured pieces by black: " + capBlack;
+  capWhite = capturedBlack.join('');
+  capWhite = "Captured pieces by white: " + capWhite;
+}
 
 /* Function to choose color based on voice command */
 function chooseColor(color) {

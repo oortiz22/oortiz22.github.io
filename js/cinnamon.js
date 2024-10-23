@@ -56,6 +56,9 @@ recognition.onresult = (event) => {
       console.log(spokenWords[spokenWords.length-1]);
 
       var please = extractCharNumCharNum(spokenWords[spokenWords.length-1]);
+      please = please.replace(/\s/g, ''); // remove spaces
+      please = please.toLowerCase();
+      console.log(please);
       makeMove(please);
 
       // makeMove(spokenWords[spokenWords.length-1]);
@@ -75,9 +78,9 @@ recognition.onend = () => {
 
 function extractCharNumCharNum(inputString) {
   // Regular expression to match a pattern of char num char num
-  const regex = /[a-zA-Z]\d\s?[a-zA-Z]\d/;
+  const regex = /([a-hA-H][1-8])\s*(?:to|two|too|2)?\s*([a-hA-H][1-8])/i;
   const match = inputString.match(regex);
-  return match ? match[0] : null;  // If a match is found, return it; otherwise, return null
+  return match ? match[1] + match[2] : null;  // If a match is found, return it; otherwise, return null
 }
 recognition.start();
 

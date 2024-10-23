@@ -11,26 +11,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js"></script>
 </head>
 <body style="background-color: #aac0aa; margin: 0;">
+    <!-- Welcome Page -->
+    <div id="welcomePage" style="text-align: center; padding: 50px;">
+        <h1>Welcome to EchoChess</h1>
+        <p>Please allow access to your microphone and state your color.</p>
+        <p>Say "choose white", "play as white", or "white" to play as white, and similarly for black.</p>
+    </div>
+    <div id="mainPage" style="display: none;">
         <h1 style="font-family: 'Gill Sans', sans-serif; text-align: center; color: #fcdfa6; font-size: 4em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">EchoChess</h1>
 
         <div style="display: flex; justify-content: center; align-items: flex-start; margin-bottom: 1em;">
-            <div>
+            <div >
                 <div id="allMoves" style="width: 400px; height: 300px; padding: 8px;margin-right: 3em;margin-bottom: 1em; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
                     <h2>
                         Commands
                     </h2>
                     <p>
-                        Commands Explanation
-
-                        Say the origin and destination of your piece. For example, "e2 e4" will move a pawn two steps.
-                        For special pieces, you must say their names. There are King, Queen, Bishop, Rook, and Knight.
-                        Each valid move that coincides with the enemy piece automatically captures their piece and vice versa.
+                        To make a move, say the origin and destination of your piece. For example, "e2 e4" will move a pawn two steps.
+                        You may also use the name of the pieces. For example, "Pawn to e4" or "Knight to c3".
+                        Each valid move that coincides with the enemy piece automatically captures their piece and vice versa.<br>
+                        To reset game, simply say "reset/restart game".<br>
+                        To switch colors, first reset game then choose color.<br>
                     </p>
                 </div>
                 <div id="allMoves" style="width: 400px; height: 300px; padding: 8px;margin-right: 3em;margin-bottom: 1em; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff;">
                     <h2>
                         Current Game
                     </h2>
+                    <div>
+                    <p id="status"></p>
+                    </div>
                     <p id ="pgn">
                     </p>
                 </div>
@@ -72,14 +82,8 @@
                 </p>
             </div>
         </div>
-        
-
-        <p id="status"></p>
-
-        <div style="display: flex; align-items: center;">
-            <input id="startPositionBtn" value="Reset Game" type="button" style="margin-right: 10px; background-color: #cbe896;">
-            <input id="startListeningBtn" value="Start Listening" type="button" style="background-color: #cbe896;">
         </div>
+       
 
     <!-- Include the JavaScript file  -->
     <script src="main.js"></script>

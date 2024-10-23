@@ -48,11 +48,11 @@ function updateStatus() {
 }
 
 // Button to reset the game
-document.getElementById('resetBtn').addEventListener('click', function() {
-    game.reset();       // Reset the game logic
-    board.start();      // Reset the board to the starting position
-    updateStatus();     // Update the status display
-});
+// document.getElementById('resetBtn').addEventListener('click', function() {
+//     game.reset();       // Reset the game logic
+//     board.start();      // Reset the board to the starting position
+//     updateStatus();     // Update the status display
+// });
 
 // Initial status display
 updateStatus();

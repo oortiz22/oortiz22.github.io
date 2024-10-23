@@ -12,10 +12,6 @@ var board,
   capBlackEl = $('#capBlack');
 
   setInterval(() => {
-    // Get the jQuery elements to display captured pieces
-    // const capBlackEl = $('#capBlack');  // jQuery object for captured black pieces
-    // const capWhiteEl = $('#capWhite');  // jQuery object for captured white pieces
-    
     // Call the function with the current FEN string and jQuery objects
     updateCapturedPieces(game.fen(), capBlackEl, capWhiteEl);
 }, 1000);
@@ -36,33 +32,38 @@ recognition.onresult = (event) => {
   let interimTranscript = '';
   for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
     let transcript = event.results[i][0].transcript;
+    transcript = transcript.toLowerCase();
     if (event.results[i].isFinal) {
       finalTranscript += transcript + '<br>';
 
       // Listen for color choice
-      if (transcript.includes('play as white') || transcript.includes('i want to play white')) {
+      if (transcript.includes('play as white') || transcript.includes('i want to play white') 
+        || transcript.includes('white')) {
           chooseColor('w');
           return;
-      } else if (transcript.includes('play as black') || transcript.includes('i want to play black')) {
+      } else if (transcript.includes('play as black') || transcript.includes('i want to play black') 
+        || transcript.includes('black')) {
           chooseColor('b');
           return;
-        } 
-      // Check for "restart game" command
-      if (transcript.includes('reset game')) {
-        restartGame();
-        return; // Exit the loop after restarting the game
-      }
-      /* Make move */
-      console.log(spokenWords[spokenWords.length-1]);
+        } else if (transcript.includes('knight') || transcript.includes('night') || transcript.includes('bishop') || transcript.includes('rook') || transcript.includes('queen') || transcript.includes('king') || transcript.includes('pawn')) {
+          console.log(spokenWords[spokenWords.length-1]);
+          let pieceMove = extractPieceMove(spokenWords[spokenWords.length-1]);
+          var please = extractCharNumCharNum(pieceMove);
+          console.log("final:",please);
+          makeMove(please);
+        } else if (transcript.includes('restart') || transcript.includes('reset')) {
+          restartGame();
+          return; // Exit the loop after restarting the game
+        } else{
+          /* Make move */
+          console.log(spokenWords[spokenWords.length-1]);
 
-      var please = extractCharNumCharNum(spokenWords[spokenWords.length-1]);
-      please = please.replace(/\s/g, ''); // remove spaces
-      please = please.toLowerCase();
-      console.log(please);
-      makeMove(please);
-
-      // makeMove(spokenWords[spokenWords.length-1]);
-
+          var please = extractCharNumCharNum(spokenWords[spokenWords.length-1]);
+          please = please.replace(/\s/g, ''); // remove spaces
+          please = please.toLowerCase();
+          console.log(please);
+          makeMove(please);
+        }
     } else {
       interimTranscript += transcript;
       spokenWords.push(interimTranscript);
@@ -73,8 +74,78 @@ recognition.onresult = (event) => {
 // Restart recognition when it ends
 recognition.onend = () => {
   console.log("Speech recognition service disconnected, restarting...");
-  recognition.start();  // Restart the recognition service
+  recognition.start();
 };
+
+// Function to extract piece and target square from voice input (e.g., "knight to a5")
+function extractPieceMove(transcript) {
+  console.log(transcript);
+  const pieceNames = {
+    night: 'n',
+    knight: 'n',
+    bishop: 'b',
+    rook: 'r',
+    queen: 'q',
+    king: 'k',
+    pawn: 'p'
+  };
+  let actual = null;
+  let piece = null;
+
+  for (let key in pieceNames) {
+    if (transcript.includes(key)) {
+      actual = key;
+      piece = pieceNames[key];
+      break;
+    }
+  }
+
+  const targetSquare = extractTargetSquare(transcript); // Get the target square from the transcript (e.g., "a5")
+  console.log("tar:",targetSquare);
+  const sourceSquare = findPieceLocation(piece, targetSquare); // Get the piece's location on the board
+  console.log("source",sourceSquare);
+  console.log("piece:",actual);
+  const updatedTranscript = transcript.replace(actual, sourceSquare);
+  return updatedTranscript;  // Return the updated transcript with the piece location replaced
+
+}
+
+// Function to find the target square in the transcript (e.g., "a3", "a 3")
+function extractTargetSquare(transcript) {
+  // Regular expression to match a square like 'a3' or 'a 3' (with or without space)
+  const regex = /([a-h])\s*([1-8])/i;
+  const match = transcript.match(regex);
+  return match ? match[1] + match[2] : null;  // Return concatenated target square, e.g., 'a3'
+}
+// Function to find the location of the piece that can legally move to targetSquare
+function findPieceLocation(piece, targetSquare) {
+  const fen = game.fen().split(' ')[0]; // Get the board part of the FEN
+  const rows = fen.split('/'); // FEN rows are separated by '/'
+  let pieceColor = game.turn() === 'w' ? piece.toUpperCase() : piece; // Capitalize if it's white's turn
+  let location = null;
+
+  // Iterate through each row in the FEN string to find all pieces of the given type
+  for (let row = 0; row < rows.length; row++) {
+    let col = 0;
+    for (let char of rows[row]) {
+      if (isNaN(char)) { // If it's a piece (not a number indicating empty spaces)
+        if (char === pieceColor) {
+          const squarePosition = String.fromCharCode(97 + col) + (8 - row); // Convert to board notation, e.g., 'e4'
+          // Check if the piece at squarePosition can legally move to targetSquare
+          const moves = game.moves({ square: squarePosition, verbose: true });
+          
+          if (moves.some(move => move.to === targetSquare)) {
+            return squarePosition; // Return the first valid piece that can move to the target square
+          }
+        }
+        col++;
+      } else {
+        col += parseInt(char); // Skip empty spaces based on the number
+      }
+    }
+  }
+  return null; // Return null if no piece is found that can move to the target square
+}
 
 function extractCharNumCharNum(inputString) {
   // Regular expression to match a pattern of char num char num
@@ -87,6 +158,9 @@ recognition.start();
 function restartGame() {
   game.reset(); // Reset the Chess game state
   board.start(); // Reset the board to the starting position
+  pgnEl.html(game.pgn());
+  document.getElementById('welcomePage').style.display = 'block'
+  document.getElementById('mainPage').style.display = 'none'
   statusEl.html("Game reset. Please say 'Play as White' or 'Play as Black' to choose your color."); // Show a message to the player
   console.log('Game reset');
 }
@@ -111,79 +185,12 @@ function makeMove(move) {
   board.position(game.fen());
 }
 
-var onDragStart = function(source, piece) {
-  // do not pick up pieces if the game is over
-  // or if it's not that side's turn
-  if (game.game_over() === true ||
-      (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-      (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-    return false;
-  }
-};
-var removeGreySquares = function() {
-  $('#board .square-55d63').css('background', '');
-};
-
-var greySquare = function(square) {
-  var squareEl = $('#board .square-' + square);
-  
-  var background = '#a9a9a9';
-  if (squareEl.hasClass('black-3c85d') === true) {
-    background = '#696969';
-  }
-
-  squareEl.css('background', background);
-};
-
-var onDrop = function(source, target) {
-  removeGreySquares();
-
-  // see if the move is legal
-  var move = game.move({
-    from: source,
-    to: target,
-    promotion: 'q' //promote to a queen
-  });
-
-  // illegal move
-  if (move === null) return 'snapback';
-  updateStatus();
-};
-
-// update the board position after the piece snap 
-// for castling, en passant, pawn promotion
-var onSnapEnd = function() {
-  board.position(game.fen());
-};
-
 function engineGo() {
 	cinnamonCommand("setMaxTimeMillsec","1000")
 	cinnamonCommand("position",game.fen())
 	var move=cinnamonCommand("go","")
   makeMove(move);
 }
-var onMouseoverSquare = function(square, piece) {
-  // get list of possible moves for this square
-  var moves = game.moves({
-    square: square,
-    verbose: true
-  });
-
-  // exit if there are no moves available for this square
-  if (moves.length === 0) return;
-
-  // highlight the square they moused over
-  greySquare(square);
-
-  // highlight the possible squares for this piece
-  for (var i = 0; i < moves.length; i++) {
-    greySquare(moves[i].to);
-  }
-};
-
-var onMouseoutSquare = function(square, piece) {
-  removeGreySquares();
-};
 
 var updateStatus = function() {
 
@@ -295,21 +302,21 @@ function chooseColor(color) {
   playerColor = color;
   if (playerColor === 'w') {
     statusEl.html("You are playing as White. Your move.");
+    // Hide the welcome page and show the main page
+    document.getElementById('welcomePage').style.display = 'none'
+    document.getElementById('mainPage').style.display = 'block'
   } else {
     statusEl.html("You are playing as Black. The engine will move first.");
+    // Hide the welcome page and show the main page
+    document.getElementById('welcomePage').style.display = 'none'
+    document.getElementById('mainPage').style.display = 'block'
     engineGo(); // Let engine make the first move if player is black
   }
 }
 
 var cfg = {
-  draggable: true,
   position: 'start',
-  onDragStart: onDragStart,
-  onDrop: onDrop,
   moveSpeed: 'slow',
-  onMouseoutSquare: onMouseoutSquare,
-  onMouseoverSquare: onMouseoverSquare,
-  onSnapEnd: onSnapEnd
 };
 board = new ChessBoard('board', cfg);
 

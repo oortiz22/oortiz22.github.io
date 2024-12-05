@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head style="font-family: 'Gill Sans', sans-serif;">
     <title>Chess</title>
     <link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -10,7 +10,7 @@
     <script src="js/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js"></script>
 </head>
-<body style="background-color: #aac0aa; margin: 0;">
+<body style="background-color: #aac0aa; margin: 0; font-family: 'Gill Sans', sans-serif;">
     <!-- Welcome Page -->
     <div id="welcomePage" style="text-align: center; padding: 50px;">
         <h1>Welcome to EchoChess</h1>
@@ -83,6 +83,9 @@
                     King - Moves one square in any direction.
                     <h3>Special Moves</h3> 
                     Castling - A king and rook can move simultaneously if neither has moved before, and there are no pieces between them.<br>
+                    Commands for castling:
+                    - "Long castle" and "castle left" for moving the King to the rook on the left side of the Queen.
+                    - "Short castle" and "castle right" for kingside castling, moving the King to the rook on the right side.
                     En Passant - A pawn can capture an opponent’s pawn that moves two squares forward as if it moved only one square.<br>
                     Promotion - Pawns reaching the opponent’s back rank can be promoted to a queen, rook, bishop, or knight.<br>
                 </p>

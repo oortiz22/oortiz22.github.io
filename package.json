@@ -1,8 +1,8 @@
 {
-  "name": "my-website",
+  "name": "echochess",
   "version": "1.0.0",
-  "description": "My Node.js application",
-  "main": "main.js",
+  "description": "Voice controlled chess game",
+  "private": true,
   "scripts": {
     "start": "node main.js"
   },

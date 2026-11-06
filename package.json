@@ -1,0 +1,10 @@
+{
+  "name": "my-website",
+  "version": "1.0.0",
+  "description": "My Node.js application",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {}
+}
